@@ -19,7 +19,7 @@ describe('HomePage', () => {
     const card = screen.getByRole('heading', { name: popular.name }).closest('article')!
     await userEvent.click(within(card).getByRole('button', { name: 'Заказать' }))
     const dialog = screen.getByRole('dialog', { name: `Заказать: ${popular.name}` })
-    expect(within(dialog).getByLabelText('Услуга')).toHaveValue(`package:${popular.slug}`)
+    expect(within(dialog).getByRole('button', { name: `Убрать: ${popular.name}` })).toBeInTheDocument()
   })
 
   it('renders hero and advantages copy from the content module', () => {

@@ -35,20 +35,39 @@ describe('OrderForm', () => {
     expect(fetchMock).not.toHaveBeenCalled()
   })
 
-  it('submits the selected item and shows success', async () => {
+  it('submits every selected item and shows success', async () => {
     fetchMock.mockResolvedValue({ ok: true, status: 200, json: async () => ({ ok: true }) })
     const onSuccess = vi.fn()
     render(<OrderForm items={items} initialItem={items[1]} showItemSelect onSuccess={onSuccess} />)
-    expect(screen.getByLabelText('Услуга')).toHaveValue('service:payroll')
+    expect(screen.getByRole('button', { name: `Убрать: ${items[1].name}` })).toBeInTheDocument()
+    await userEvent.click(screen.getByLabelText('Услуги'))
+    await userEvent.click(screen.getByRole('checkbox', { name: items[0].name }))
+    expect(screen.getByRole('checkbox', { name: items[1].name })).toBeChecked()
     await fillRequired()
     await userEvent.click(screen.getByRole('button', { name: 'Отправить заявку' }))
     expect(await screen.findByText('Заявка отправлена')).toBeInTheDocument()
     const [url, init] = fetchMock.mock.calls[0]
     expect(url).toBe('/api/order')
     const body = JSON.parse(init.body)
-    expect(body).toMatchObject({ name: 'Иван', email: 'ivan@example.com', item: items[1] })
-    expect(body).not.toHaveProperty('itemKey')
+    expect(body).toMatchObject({ name: 'Иван', email: 'ivan@example.com', items: [items[0], items[1]] })
+    expect(body).not.toHaveProperty('itemKeys')
+    expect(body).not.toHaveProperty('item')
     expect(onSuccess).toHaveBeenCalledTimes(1)
+  })
+
+  it('removes an item with its chip and closes the panel with Escape', async () => {
+    render(<OrderForm items={items} initialItem={items[1]} showItemSelect />)
+    const field = screen.getByLabelText('Услуги')
+    await userEvent.click(field)
+    expect(field).toHaveAttribute('aria-expanded', 'true')
+    expect(screen.getByRole('checkbox', { name: items[1].name })).toBeChecked()
+    await userEvent.click(screen.getByRole('button', { name: `Убрать: ${items[1].name}` }))
+    expect(screen.getByRole('checkbox', { name: items[1].name })).not.toBeChecked()
+    expect(screen.queryByRole('button', { name: `Убрать: ${items[1].name}` })).not.toBeInTheDocument()
+    await userEvent.keyboard('{Escape}')
+    expect(field).toHaveAttribute('aria-expanded', 'false')
+    expect(screen.queryByRole('checkbox', { name: items[1].name })).not.toBeInTheDocument()
+    expect(screen.getByText('Выберите одну или несколько')).toBeInTheDocument()
   })
 
   it('shows the server error message on failure', async () => {
@@ -58,7 +77,7 @@ describe('OrderForm', () => {
       json: async () => ({ ok: false, error: 'Не удалось отправить письмо' }),
     })
     render(<OrderForm items={items} />)
-    expect(screen.queryByLabelText('Услуга')).not.toBeInTheDocument()
+    expect(screen.queryByLabelText('Услуги')).not.toBeInTheDocument()
     await fillRequired()
     await userEvent.click(screen.getByRole('button', { name: 'Отправить заявку' }))
     expect(await screen.findByRole('alert')).toHaveTextContent('Не удалось отправить письмо')

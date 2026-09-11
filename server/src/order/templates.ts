@@ -1,18 +1,33 @@
-import type { Order } from './schema'
+import { orderItems, type Order, type OrderItem } from './schema'
 import type { MailMessage } from './mailer'
 
 const KIND_LABEL = { package: 'пакет', service: 'услуга' } as const
 
-function itemLine(order: Order): string {
-  return order.item ? `${order.item.name} (${KIND_LABEL[order.item.kind]})` : 'не указана'
+function itemLine(item: OrderItem): string {
+  return `${item.name} (${KIND_LABEL[item.kind]})`
+}
+
+function positions(n: number): string {
+  const mod10 = n % 10
+  const mod100 = n % 100
+  if (mod10 === 1 && mod100 !== 11) return `${n} позиция`
+  if (mod10 >= 2 && mod10 <= 4 && (mod100 < 10 || mod100 >= 20)) return `${n} позиции`
+  return `${n} позиций`
 }
 
 export function ownerMessage(order: Order, to: string): MailMessage {
-  const subject = order.item ? `Заявка с сайта: ${itemLine(order)}` : 'Обращение с сайта'
+  const items = orderItems(order)
+  const subject =
+    items.length === 0
+      ? 'Обращение с сайта'
+      : items.length === 1
+        ? `Заявка с сайта: ${itemLine(items[0])}`
+        : `Заявка с сайта: ${positions(items.length)}`
+  const itemBlock = items.length === 0 ? ['Услуга: не указана'] : ['Услуги:', ...items.map((i) => `- ${itemLine(i)}`)]
   const text = [
     'Новая заявка с сайта',
     '',
-    `Услуга: ${itemLine(order)}`,
+    ...itemBlock,
     `Имя: ${order.name}`,
     `Телефон: ${order.phone}`,
     `Email: ${order.email}`,
@@ -24,14 +39,17 @@ export function ownerMessage(order: Order, to: string): MailMessage {
   return { to, subject, text }
 }
 
-// Клиентское письмо не повторяет введённый пользователем текст: название услуги
-// ограничено схемой (без переводов строк и угловых скобок), остальное — наш текст.
+// Клиентское письмо не повторяет введённый пользователем текст: названия услуг
+// ограничены схемой (без переводов строк и угловых скобок), остальное — наш текст.
 export function clientMessage(order: Order): MailMessage {
+  const items = orderItems(order)
+  const itemBlock =
+    items.length === 0 ? [] : items.length === 1 ? [`Услуга: ${items[0].name}`] : ['Выбранные услуги:', ...items.map((i) => `- ${i.name}`)]
   const text = [
     'Здравствуйте!',
     '',
     'Ваша заявка получена. Мы свяжемся с вами в рабочее время (Пн–Пт 9:00–18:00).',
-    ...(order.item ? [`Услуга: ${order.item.name}`] : []),
+    ...itemBlock,
     '',
     'С уважением,',
     'команда ЗКВ ФЛАГМАН',

@@ -16,17 +16,17 @@ describe('orderFormSchema', () => {
 })
 
 describe('toPayload', () => {
-  it('maps itemKey to the matching item', () => {
+  it('maps itemKeys to the matching items in catalogue order', () => {
     const payload = toPayload(
-      { name: 'Иван', phone: '+375291234567', email: 'i@x.by', itemKey: itemKey(items[1]) },
+      { name: 'Иван', phone: '+375291234567', email: 'i@x.by', itemKeys: [itemKey(items[1]), itemKey(items[0])] },
       items,
     )
-    expect(payload.item).toEqual(items[1])
-    expect(payload).not.toHaveProperty('itemKey')
+    expect(payload.items).toEqual([items[0], items[1]])
+    expect(payload).not.toHaveProperty('itemKeys')
   })
-  it('omits item when key is empty or unknown', () => {
-    expect(toPayload({ name: 'Иван', phone: '+375291234567', email: 'i@x.by', itemKey: '' }, items).item).toBeUndefined()
-    expect(toPayload({ name: 'Иван', phone: '+375291234567', email: 'i@x.by', itemKey: 'x:y' }, items).item).toBeUndefined()
+  it('omits items when keys are empty or unknown', () => {
+    expect(toPayload({ name: 'Иван', phone: '+375291234567', email: 'i@x.by', itemKeys: [] }, items).items).toBeUndefined()
+    expect(toPayload({ name: 'Иван', phone: '+375291234567', email: 'i@x.by', itemKeys: ['x:y'] }, items).items).toBeUndefined()
   })
 })
 

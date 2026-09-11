@@ -16,6 +16,6 @@ describe('ContactsPage', () => {
     expect(map.getAttribute('src')).toContain(`${company.mapLon},${company.mapLat}`)
     expect(screen.getByRole('link', { name: 'Построить маршрут' })).toHaveAttribute('href', expect.stringContaining('yandex'))
     expect(screen.getByRole('button', { name: 'Отправить заявку' })).toBeInTheDocument()
-    expect(screen.queryByLabelText('Услуга')).not.toBeInTheDocument()
+    expect(screen.queryByLabelText('Услуги')).not.toBeInTheDocument()
   })
 })

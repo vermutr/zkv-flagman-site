@@ -1,11 +1,12 @@
 import { useState, type ReactNode } from 'react'
-import { useForm } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { CheckCircle2 } from 'lucide-react'
 import type { OrderItem } from '../../content/types'
 import { Button } from '../../components/Button'
 import { itemKey, orderFormSchema, toPayload, type OrderFormValues } from './schema'
 import { OrderError, submitOrder } from './api'
+import { ItemPicker } from './ItemPicker'
 
 type Props = {
   items: OrderItem[]
@@ -43,12 +44,13 @@ export function OrderForm({ items, initialItem, showItemSelect = false, onSucces
   const [serverError, setServerError] = useState<string | null>(null)
   const {
     register,
+    control,
     handleSubmit,
     setError,
     formState: { errors, isSubmitting },
   } = useForm<OrderFormValues>({
     resolver: zodResolver(orderFormSchema),
-    defaultValues: { itemKey: initialItem ? itemKey(initialItem) : '', website: '' },
+    defaultValues: { itemKeys: initialItem ? [itemKey(initialItem)] : [], website: '' },
   })
 
   const onSubmit = async (values: OrderFormValues) => {
@@ -81,30 +83,24 @@ export function OrderForm({ items, initialItem, showItemSelect = false, onSucces
     )
   }
 
-  const packages = items.filter((i) => i.kind === 'package')
-  const services = items.filter((i) => i.kind === 'service')
-
   return (
     <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-4">
       {showItemSelect && (
-        <Field id="order-item" label="Услуга" error={errors.itemKey?.message}>
-          <select id="order-item" className={inputClass} {...errorProps('order-item', errors.itemKey?.message)} {...register('itemKey')}>
-            <option value="">Пока не решил(а)</option>
-            <optgroup label="Пакеты">
-              {packages.map((i) => (
-                <option key={itemKey(i)} value={itemKey(i)}>
-                  {i.name}
-                </option>
-              ))}
-            </optgroup>
-            <optgroup label="Отдельные услуги">
-              {services.map((i) => (
-                <option key={itemKey(i)} value={itemKey(i)}>
-                  {i.name}
-                </option>
-              ))}
-            </optgroup>
-          </select>
+        <Field id="order-items" label="Услуги" error={errors.itemKeys?.message}>
+          <Controller
+            name="itemKeys"
+            control={control}
+            render={({ field }) => (
+              <ItemPicker
+                id="order-items"
+                items={items}
+                value={field.value ?? []}
+                onChange={field.onChange}
+                invalid={Boolean(errors.itemKeys)}
+                describedBy={errors.itemKeys ? 'order-items-error' : undefined}
+              />
+            )}
+          />
         </Field>
       )}
       <Field id="order-name" label="Имя" error={errors.name?.message}>

@@ -29,21 +29,24 @@ export const orderFormSchema = z.object({
     .refine((v) => v === '' || SAFE_TEXT.test(v), SAFE_TEXT_MESSAGE)
     .optional(),
   message: z.string().trim().max(2000, 'Не больше 2000 символов').optional(),
-  itemKey: z.string().optional(),
+  /** Ключи выбранных позиций, см. itemKey(). */
+  itemKeys: z.array(z.string()).max(20, 'Не больше 20 позиций').optional(),
   // Ловушка для ботов: проверяет её сервер, автозаполнение браузера не должно ломать отправку.
   website: z.string().optional(),
 })
 
 export type OrderFormValues = z.infer<typeof orderFormSchema>
 
-export type OrderPayload = Omit<OrderFormValues, 'itemKey'> & { item?: OrderItem }
+export type OrderPayload = Omit<OrderFormValues, 'itemKeys'> & { items?: OrderItem[] }
 
 export function itemKey(item: OrderItem): string {
   return `${item.kind}:${item.slug}`
 }
 
+/** Выбранные позиции в порядке каталога; неизвестные ключи отбрасываются. */
 export function toPayload(values: OrderFormValues, items: OrderItem[]): OrderPayload {
-  const { itemKey: key, ...rest } = values
-  const item = key ? items.find((i) => itemKey(i) === key) : undefined
-  return item ? { ...rest, item } : rest
+  const { itemKeys, ...rest } = values
+  const chosen = new Set(itemKeys ?? [])
+  const selected = items.filter((i) => chosen.has(itemKey(i)))
+  return selected.length > 0 ? { ...rest, items: selected } : rest
 }

@@ -40,7 +40,7 @@ describe('ServicesPage', () => {
     await userEvent.click(within(details).getByRole('button', { name: 'Заказать услугу' }))
     expect(screen.queryByRole('dialog', { name: s.name })).not.toBeInTheDocument()
     const order = screen.getByRole('dialog', { name: `Заказать: ${s.name}` })
-    expect(within(order).getByLabelText('Услуга')).toHaveValue(`service:${s.slug}`)
+    expect(within(order).getByRole('button', { name: `Убрать: ${s.name}` })).toBeInTheDocument()
   })
 
   it('opens the services tab from the query string', () => {

@@ -30,6 +30,25 @@ describe('POST /api/order', () => {
     expect(send.mock.calls[1][0].to).toBe('ivan@example.com')
   })
 
+  it('accepts a list of items and passes them to the emails', async () => {
+    const items = [
+      { kind: 'package', slug: 'ip', name: 'ИП' },
+      { kind: 'service', slug: 'reviziya', name: 'Ревизия учёта' },
+    ]
+    const { item: _item, ...rest } = valid
+    const res = await request(app()).post('/api/order').send({ ...rest, items })
+    expect(res.status).toBe(200)
+    expect(send.mock.calls[0][0].text).toContain('Ревизия учёта')
+    expect(send.mock.calls[1][0].text).toContain('ИП')
+  })
+
+  it('rejects more than 20 items', async () => {
+    const items = Array.from({ length: 21 }, (_, i) => ({ kind: 'service', slug: `s-${i}`, name: `Услуга ${i}` }))
+    const res = await request(app()).post('/api/order').send({ ...valid, items })
+    expect(res.status).toBe(400)
+    expect(res.body.errors).toHaveProperty('items')
+  })
+
   it('returns 400 with field errors for an invalid order', async () => {
     const res = await request(app()).post('/api/order').send({ ...valid, email: 'bad' })
     expect(res.status).toBe(400)

@@ -26,6 +26,29 @@ describe('ownerMessage', () => {
   })
 })
 
+describe('several items', () => {
+  const items = [
+    { kind: 'package' as const, slug: 'ip', name: 'ИП' },
+    { kind: 'service' as const, slug: 'reviziya', name: 'Ревизия учёта' },
+  ]
+  const multi: Order = { ...order, item: undefined, items }
+
+  it('lists every chosen item for the owner and counts them in the subject', () => {
+    const m = ownerMessage(multi, 'o@x.by')
+    expect(m.subject).toBe('Заявка с сайта: 2 позиции')
+    expect(m.text).toContain('- ИП (пакет)')
+    expect(m.text).toContain('- Ревизия учёта (услуга)')
+  })
+  it('lists every chosen item for the client', () => {
+    const m = clientMessage(multi)
+    expect(m.text).toContain('- ИП')
+    expect(m.text).toContain('- Ревизия учёта')
+  })
+  it('uses the single-item subject when items has one entry', () => {
+    expect(ownerMessage({ ...multi, items: [items[1]] }, 'o@x.by').subject).toBe('Заявка с сайта: Ревизия учёта (услуга)')
+  })
+})
+
 describe('clientMessage', () => {
   it('confirms to the client', () => {
     const m = clientMessage(order)
