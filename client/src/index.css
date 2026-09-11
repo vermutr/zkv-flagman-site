@@ -22,3 +22,12 @@
 
 html { scroll-behavior: smooth; }
 body { @apply bg-stone-50 text-stone-800 antialiased; }
+
+.article { @apply leading-relaxed text-stone-700; }
+.article h2 { @apply mb-3 mt-10 text-2xl font-bold text-brand-900; }
+.article h3 { @apply mb-2 mt-8 text-xl font-bold text-brand-900; }
+.article p { @apply my-4; }
+.article ul { @apply my-4 list-disc space-y-1 pl-6; }
+.article ol { @apply my-4 list-decimal space-y-1 pl-6; }
+.article a { @apply text-brand-600 underline hover:text-brand-700; }
+.article strong { @apply font-semibold text-brand-900; }
