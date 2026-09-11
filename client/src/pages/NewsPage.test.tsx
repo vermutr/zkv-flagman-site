@@ -11,15 +11,15 @@ describe('news pages', () => {
     expect(headings).toEqual(posts.map((p) => p.title))
   })
 
-  it('renders an article with markdown body', () => {
+  it('renders an article with markdown body', async () => {
     renderApp('/news/2026-05-15-novyi-ofis')
-    expect(screen.getByRole('heading', { level: 1, name: 'Мы переехали в новый офис на Немиге' })).toBeInTheDocument()
+    expect(await screen.findByRole('heading', { level: 1, name: 'Мы переехали в новый офис на Немиге' })).toBeInTheDocument()
     expect(screen.getByText(/С 15 мая наш офис находится/)).toBeInTheDocument()
     expect(screen.getByText('15 мая 2026 г.')).toBeInTheDocument()
   })
 
-  it('shows 404 for an unknown slug', () => {
+  it('shows 404 for an unknown slug', async () => {
     renderApp('/news/does-not-exist')
-    expect(screen.getByRole('heading', { name: 'Страница не найдена' })).toBeInTheDocument()
+    expect(await screen.findByRole('heading', { name: 'Страница не найдена' })).toBeInTheDocument()
   })
 })

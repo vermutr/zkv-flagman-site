@@ -8,11 +8,15 @@ export default function NewsPage() {
   return (
     <Container className="py-16 sm:py-20">
       <SectionHeading eyebrow="Новости" title="Новости компании и изменения в законодательстве" subtitle="Коротко о том, что важно знать нашим клиентам." />
-      <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {posts.map((post) => (
-          <NewsCard key={post.slug} post={post} />
-        ))}
-      </div>
+      {posts.length === 0 ? (
+        <p className="mt-12 text-stone-600">Новостей пока нет</p>
+      ) : (
+        <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {posts.map((post) => (
+            <NewsCard key={post.slug} post={post} />
+          ))}
+        </div>
+      )}
     </Container>
   )
 }

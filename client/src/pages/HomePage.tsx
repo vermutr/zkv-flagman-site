@@ -95,19 +95,21 @@ export default function HomePage() {
         </Container>
       </section>
 
-      <section className="bg-white py-20">
-        <Container>
-          <div className="flex flex-wrap items-end justify-between gap-4">
-            <SectionHeading eyebrow="Новости" title="Что нового" />
-            <ButtonLink to="/news" variant="secondary">Все новости</ButtonLink>
-          </div>
-          <div className="mt-12 grid gap-6 md:grid-cols-3">
-            {news.map((post) => (
-              <NewsCard key={post.slug} post={post} />
-            ))}
-          </div>
-        </Container>
-      </section>
+      {news.length > 0 && (
+        <section className="bg-white py-20">
+          <Container>
+            <div className="flex flex-wrap items-end justify-between gap-4">
+              <SectionHeading eyebrow="Новости" title="Что нового" />
+              <ButtonLink to="/news" variant="secondary">Все новости</ButtonLink>
+            </div>
+            <div className="mt-12 grid gap-6 md:grid-cols-3">
+              {news.map((post) => (
+                <NewsCard key={post.slug} post={post} />
+              ))}
+            </div>
+          </Container>
+        </section>
+      )}
 
       <section className="py-20">
         <Container>
