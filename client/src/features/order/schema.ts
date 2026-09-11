@@ -3,7 +3,7 @@ import type { OrderItem } from '../../content/types'
 
 /** Свободный текст, который уходит в письмо: без переводов строк и угловых скобок. */
 const SAFE_TEXT = /^[^\r\n\t<>]+$/
-const SAFE_TEXT_MESSAGE = 'Недопустимые символы'
+const SAFE_TEXT_MESSAGE = 'Уберите символы < > и переносы строк'
 
 /** Те же правила, что и в server/src/order/schema.ts. */
 export const orderItemSchema = z.object({

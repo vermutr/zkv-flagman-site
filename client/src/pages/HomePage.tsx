@@ -1,3 +1,4 @@
+import { ArrowRight } from 'lucide-react'
 import { Container } from '../components/Container'
 import { Button, ButtonLink } from '../components/Button'
 import { SectionHeading } from '../components/SectionHeading'
@@ -37,11 +38,11 @@ export default function HomePage() {
               </ButtonLink>
             </div>
           </div>
-          <dl className="grid grid-cols-3 gap-4 lg:grid-cols-1">
+          <dl className="grid gap-4 sm:grid-cols-3 lg:grid-cols-1">
             {stats.map(({ value, label }) => (
-              <div key={label} className="rounded-2xl bg-white/5 p-5 ring-1 ring-white/10 backdrop-blur">
-                <dt className="text-3xl font-extrabold text-white">{value}</dt>
-                <dd className="mt-1 text-sm text-brand-100">{label}</dd>
+              <div key={label} className="flex flex-col-reverse rounded-2xl bg-white/5 p-5 ring-1 ring-white/10">
+                <dt className="mt-1 text-sm text-brand-100">{label}</dt>
+                <dd className="text-3xl font-extrabold tabular-nums text-white">{value}</dd>
               </div>
             ))}
           </dl>
@@ -54,8 +55,8 @@ export default function HomePage() {
           <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {advantages.map(({ icon: Icon, title, text }) => (
               <div key={title} className="rounded-3xl bg-white p-6 shadow-card ring-1 ring-stone-200">
-                <span className="grid h-11 w-11 place-items-center rounded-xl bg-accent-100 text-accent-600">
-                  <Icon size={22} />
+                <span className="grid h-11 w-11 place-items-center rounded-xl bg-accent-100 text-accent-700">
+                  <Icon size={22} aria-hidden="true" />
                 </span>
                 <h3 className="mt-4 font-bold text-brand-900">{title}</h3>
                 <p className="mt-2 text-sm text-stone-600">{text}</p>
@@ -75,7 +76,7 @@ export default function HomePage() {
           </div>
           <div className="mt-10 text-center">
             <ButtonLink to="/services?tab=services" variant="ghost">
-              Все отдельные услуги и цены →
+              Все отдельные услуги и цены <ArrowRight size={16} aria-hidden="true" />
             </ButtonLink>
           </div>
         </Container>

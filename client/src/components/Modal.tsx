@@ -34,7 +34,7 @@ export function Modal({ open, onClose, title, children }: Props) {
 
   return createPortal(
     <div
-      className="fixed inset-0 z-50 flex items-end justify-center bg-brand-900/50 backdrop-blur-sm sm:items-center sm:p-4"
+      className="modal-backdrop fixed inset-0 z-50 flex items-end justify-center bg-brand-900/50 backdrop-blur-sm sm:items-center sm:p-4"
       onClick={onClose}
     >
       <div
@@ -50,8 +50,13 @@ export function Modal({ open, onClose, title, children }: Props) {
           <h2 id="modal-title" className="text-2xl font-bold text-brand-900">
             {title}
           </h2>
-          <button onClick={onClose} aria-label="Закрыть" className="rounded-full p-2 text-stone-500 hover:bg-stone-100">
-            <X size={20} />
+          <button
+            type="button"
+            onClick={onClose}
+            aria-label="Закрыть"
+            className="-mr-2 -mt-2 grid h-11 w-11 shrink-0 place-items-center rounded-full text-stone-600 hover:bg-stone-100 active:bg-stone-200"
+          >
+            <X size={22} />
           </button>
         </div>
         <div className="mt-6">{children}</div>

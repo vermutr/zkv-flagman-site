@@ -7,25 +7,25 @@ export function PackageCard({ pkg, onOrder }: { pkg: Package; onOrder: (item: Or
   const popular = Boolean(pkg.popular)
   return (
     <article
-      className={`relative flex flex-col rounded-3xl bg-white p-7 shadow-card transition-all duration-300 hover:-translate-y-1 hover:shadow-card-hover ${
-        popular ? 'ring-2 ring-accent-500' : 'ring-1 ring-stone-200'
+      className={`relative flex flex-col rounded-3xl bg-white p-7 shadow-card ${
+        popular ? 'ring-2 ring-accent-600' : 'ring-1 ring-stone-200'
       }`}
     >
       {popular && (
-        <span className="absolute -top-3 left-6 rounded-full bg-accent-500 px-3 py-1 text-xs font-semibold text-white">
+        <span className="absolute -top-3 left-6 rounded-full bg-accent-700 px-3 py-1 text-xs font-semibold text-white">
           Популярный
         </span>
       )}
-      <h3 className="text-xl font-bold text-brand-900">{pkg.name}</h3>
+      <h3 id={`package-${pkg.slug}-name`} className="text-xl font-bold text-brand-900">{pkg.name}</h3>
       <p className="mt-1 text-sm text-stone-600">{pkg.audience}</p>
-      <p className="mt-5 text-3xl font-extrabold text-brand-900">
+      <p className="mt-5 text-3xl font-extrabold tabular-nums text-brand-900">
         {formatPrice(pkg.pricePerMonth)}
         <span className="text-base font-medium text-stone-500"> / месяц</span>
       </p>
       <ul className="mt-6 flex-1 space-y-2.5 text-sm text-stone-700">
         {pkg.features.map((f) => (
           <li key={f} className="flex gap-2">
-            <Check className="mt-0.5 shrink-0 text-accent-600" size={16} />
+            <Check className="mt-0.5 shrink-0 text-accent-700" size={16} aria-hidden="true" />
             <span>{f}</span>
           </li>
         ))}
@@ -33,6 +33,7 @@ export function PackageCard({ pkg, onOrder }: { pkg: Package; onOrder: (item: Or
       <Button
         className="mt-7 w-full"
         variant={popular ? 'primary' : 'secondary'}
+        aria-describedby={`package-${pkg.slug}-name`}
         onClick={() => onOrder({ kind: 'package', slug: pkg.slug, name: pkg.name })}
       >
         Заказать

@@ -5,6 +5,9 @@ import { company } from '../content/company'
 import { allOrderItems } from '../content/orderItems'
 import { OrderForm } from '../features/order/OrderForm'
 
+// Ссылка на карту вместо заглушки «Здесь будет карта»: недоделанный элемент в проде.
+const mapHref = `https://yandex.by/maps/?text=${encodeURIComponent(company.address)}`
+
 export default function ContactsPage() {
   const rows = [
     { icon: Phone, label: 'Телефон', value: <a href={company.phoneHref} className="hover:text-brand-600">{company.phone}</a> },
@@ -22,7 +25,7 @@ export default function ContactsPage() {
             {rows.map(({ icon: Icon, label, value }) => (
               <li key={label} className="flex gap-4">
                 <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-brand-50 text-brand-600">
-                  <Icon size={20} />
+                  <Icon size={20} aria-hidden="true" />
                 </span>
                 <div>
                   <p className="text-xs font-medium uppercase tracking-wider text-stone-500">{label}</p>
@@ -31,9 +34,14 @@ export default function ContactsPage() {
               </li>
             ))}
           </ul>
-          <div className="grid h-56 place-items-center rounded-3xl bg-brand-50 text-sm text-brand-600 ring-1 ring-brand-100">
-            Здесь будет карта проезда
-          </div>
+          <a
+            href={mapHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex min-h-11 items-center justify-center gap-2 rounded-2xl bg-brand-50 px-5 py-3 text-sm font-semibold text-brand-600 ring-1 ring-brand-100 hover:bg-brand-100"
+          >
+            <MapPin size={16} aria-hidden="true" /> Показать на карте
+          </a>
           <p className="text-xs text-stone-500">{company.legal}</p>
         </div>
         <div className="rounded-3xl bg-white p-6 shadow-card ring-1 ring-stone-200 sm:p-8">

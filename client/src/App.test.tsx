@@ -11,6 +11,12 @@ describe('App shell', () => {
       expect(nav).toHaveTextContent(label)
     }
   })
+  it('offers a skip link that targets the main landmark', () => {
+    renderApp('/')
+    const skip = screen.getByRole('link', { name: 'Перейти к содержимому' })
+    expect(skip).toHaveAttribute('href', '#main')
+    expect(screen.getByRole('main')).toHaveAttribute('id', 'main')
+  })
   it('renders 404 page for unknown routes', () => {
     renderApp('/nope')
     expect(screen.getByRole('heading', { name: 'Страница не найдена' })).toBeInTheDocument()

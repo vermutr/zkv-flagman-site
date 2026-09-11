@@ -1,3 +1,4 @@
+import type { KeyboardEvent } from 'react'
 import { useSearchParams } from 'react-router'
 import { Container } from '../components/Container'
 import { SectionHeading } from '../components/SectionHeading'
@@ -23,6 +24,19 @@ export default function ServicesPage() {
     setParams(next === 'packages' ? {} : { tab: next }, { replace: true })
   }
 
+  // Стрелки, Home и End переключают вкладки и переносят фокус, как в системных сегментах.
+  const onTabKey = (e: KeyboardEvent<HTMLButtonElement>, index: number) => {
+    const delta = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0
+    let nextIndex = index + delta
+    if (e.key === 'Home') nextIndex = 0
+    if (e.key === 'End') nextIndex = tabs.length - 1
+    if (nextIndex === index) return
+    e.preventDefault()
+    const next = tabs[(nextIndex + tabs.length) % tabs.length]
+    select(next.id)
+    document.getElementById(`tab-${next.id}`)?.focus()
+  }
+
   return (
     <Container className="py-16 sm:py-20">
       <SectionHeading
@@ -32,13 +46,18 @@ export default function ServicesPage() {
       />
 
       <div role="tablist" aria-label="Тип услуг" className="mt-10 inline-flex rounded-full bg-stone-200/70 p-1">
-        {tabs.map((t) => (
+        {tabs.map((t, i) => (
           <button
             key={t.id}
+            id={`tab-${t.id}`}
+            type="button"
             role="tab"
             aria-selected={tab === t.id}
+            aria-controls={`panel-${t.id}`}
+            tabIndex={tab === t.id ? 0 : -1}
             onClick={() => select(t.id)}
-            className={`rounded-full px-5 py-2 text-sm font-semibold transition-colors ${
+            onKeyDown={(e) => onTabKey(e, i)}
+            className={`min-h-11 rounded-full px-5 py-2.5 text-sm font-semibold transition-colors ${
               tab === t.id ? 'bg-white text-brand-900 shadow-sm' : 'text-stone-600 hover:text-brand-700'
             }`}
           >
@@ -48,13 +67,13 @@ export default function ServicesPage() {
       </div>
 
       {tab === 'packages' ? (
-        <div role="tabpanel" className="mt-10 grid gap-6 lg:grid-cols-3">
+        <div role="tabpanel" id="panel-packages" aria-labelledby="tab-packages" className="mt-10 grid gap-6 lg:grid-cols-3">
           {packages.map((p) => (
             <PackageCard key={p.slug} pkg={p} onOrder={open} />
           ))}
         </div>
       ) : (
-        <div role="tabpanel" className="mt-10 space-y-14">
+        <div role="tabpanel" id="panel-services" aria-labelledby="tab-services" className="mt-10 space-y-14">
           {serviceCategories.map((category) => (
             <section key={category}>
               <h2 className="text-2xl font-bold text-brand-900">{category}</h2>

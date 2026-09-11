@@ -15,6 +15,9 @@
   --color-accent-400: #34d399;
   --color-accent-500: #10b981;
   --color-accent-600: #059669;
+  /* Текстовые оттенки акцента: 700 даёт 5.5:1 на белом, 800 — 7.7:1 (accent-600 давал лишь 3.8:1). */
+  --color-accent-700: #047857;
+  --color-accent-800: #065f46;
 
   --shadow-card: 0 1px 2px rgb(15 31 51 / 0.04), 0 8px 24px -8px rgb(15 31 51 / 0.12);
   --shadow-card-hover: 0 2px 4px rgb(15 31 51 / 0.06), 0 16px 40px -12px rgb(15 31 51 / 0.2);
@@ -22,6 +25,22 @@
 
 html { scroll-behavior: smooth; }
 body { @apply bg-stone-50 text-stone-800 antialiased; }
+
+/* Reduce Motion: без плавной прокрутки и без анимаций сдвига/тени. */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
+/* Reduce Transparency: полупрозрачная шапка и подложка модалки становятся непрозрачными. */
+@media (prefers-reduced-transparency: reduce) {
+  .site-header { background-color: #fff; backdrop-filter: none; }
+  .modal-backdrop { backdrop-filter: none; background-color: rgb(15 31 51 / 0.7); }
+}
 
 .article { @apply leading-relaxed text-stone-700; }
 .article h2 { @apply mb-3 mt-10 text-2xl font-bold text-brand-900; }

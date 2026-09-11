@@ -16,8 +16,12 @@ export function NewsCard({ post }: { post: NewsPost }) {
         </Link>
       </h3>
       <p className="mt-2 flex-1 text-sm text-stone-700">{post.excerpt}</p>
-      <Link to={`/news/${post.slug}`} className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-brand-600 hover:text-brand-700">
-        Читать <ArrowRight size={16} />
+      <Link
+        to={`/news/${post.slug}`}
+        aria-label={`Читать: ${post.title}`}
+        className="mt-4 inline-flex min-h-11 items-center gap-1 text-sm font-semibold text-brand-600 hover:text-brand-700"
+      >
+        Читать <ArrowRight size={16} aria-hidden="true" />
       </Link>
     </article>
   )
