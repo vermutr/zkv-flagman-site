@@ -2,6 +2,10 @@ import { describe, expect, it } from 'vitest'
 import { screen } from '@testing-library/react'
 import { renderApp } from '../test/render'
 import { loadNews } from '../lib/news'
+// Warm the lazily loaded article page so the dynamic import in App resolves instantly in tests.
+import '../pages/NewsArticlePage'
+
+const LAZY = { timeout: 5000 }
 
 describe('news pages', () => {
   it('lists all posts newest first', () => {
@@ -13,13 +17,13 @@ describe('news pages', () => {
 
   it('renders an article with markdown body', async () => {
     renderApp('/news/2026-05-15-novyi-ofis')
-    expect(await screen.findByRole('heading', { level: 1, name: 'Мы переехали в новый офис на Немиге' })).toBeInTheDocument()
+    expect(await screen.findByRole('heading', { level: 1, name: 'Мы переехали в новый офис на Немиге' }, LAZY)).toBeInTheDocument()
     expect(screen.getByText(/С 15 мая наш офис находится/)).toBeInTheDocument()
     expect(screen.getByText('15 мая 2026 г.')).toBeInTheDocument()
   })
 
   it('shows 404 for an unknown slug', async () => {
     renderApp('/news/does-not-exist')
-    expect(await screen.findByRole('heading', { name: 'Страница не найдена' })).toBeInTheDocument()
+    expect(await screen.findByRole('heading', { name: 'Страница не найдена' }, LAZY)).toBeInTheDocument()
   })
 })
