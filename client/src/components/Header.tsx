@@ -40,6 +40,7 @@ export function Header({ onOrderClick }: { onOrderClick: () => void }) {
           className="rounded-lg p-2 text-brand-900 md:hidden"
           aria-label={open ? 'Закрыть меню' : 'Открыть меню'}
           aria-expanded={open}
+          aria-controls="mobile-menu"
           onClick={() => setOpen((v) => !v)}
         >
           {open ? <X /> : <Menu />}
@@ -48,11 +49,13 @@ export function Header({ onOrderClick }: { onOrderClick: () => void }) {
       {open && (
         <div className="border-t border-stone-200 bg-white md:hidden">
           <Container className="flex flex-col gap-1 py-3">
-            {links.map((l) => (
-              <NavLink key={l.to} to={l.to} className={linkClass} onClick={() => setOpen(false)}>
-                {l.label}
-              </NavLink>
-            ))}
+            <nav id="mobile-menu" aria-label="Мобильное меню" className="flex flex-col gap-1">
+              {links.map((l) => (
+                <NavLink key={l.to} to={l.to} className={linkClass} onClick={() => setOpen(false)}>
+                  {l.label}
+                </NavLink>
+              ))}
+            </nav>
             <Button
               className="mt-2"
               onClick={() => {

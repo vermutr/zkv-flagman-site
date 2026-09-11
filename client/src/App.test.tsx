@@ -1,7 +1,10 @@
-import { describe, expect, it } from 'vitest'
-import { render, screen } from '@testing-library/react'
+import { afterEach, describe, expect, it } from 'vitest'
+import { cleanup, render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { MemoryRouter } from 'react-router'
 import App from './App'
+
+afterEach(cleanup)
 
 function renderAt(path: string) {
   return render(
@@ -22,5 +25,13 @@ describe('App shell', () => {
   it('renders 404 page for unknown routes', () => {
     renderAt('/nope')
     expect(screen.getByRole('heading', { name: 'Страница не найдена' })).toBeInTheDocument()
+  })
+  it('exposes the mobile menu as a nav landmark when opened', async () => {
+    const user = userEvent.setup()
+    renderAt('/')
+    const burger = screen.getByRole('button', { name: 'Открыть меню' })
+    await user.click(burger)
+    expect(screen.getByRole('navigation', { name: 'Мобильное меню' })).toBeInTheDocument()
+    expect(burger).toHaveAttribute('aria-expanded', 'true')
   })
 })
