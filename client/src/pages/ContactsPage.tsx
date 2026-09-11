@@ -5,8 +5,10 @@ import { company } from '../content/company'
 import { allOrderItems } from '../content/orderItems'
 import { OrderForm } from '../features/order/OrderForm'
 
-// Ссылка на карту вместо заглушки «Здесь будет карта»: недоделанный элемент в проде.
-const mapHref = `https://yandex.by/maps/?text=${encodeURIComponent(company.address)}`
+// Виджет Яндекс Карт без ключа: метка на офисе, ленивая загрузка. Ссылка ниже открывает маршрут.
+const point = `${company.mapLon},${company.mapLat}`
+const mapEmbedSrc = `https://yandex.by/map-widget/v1/?ll=${point}&z=16&pt=${point},pm2dbm&lang=ru_BY`
+const routeHref = `https://yandex.by/maps/?rtext=~${company.mapLat},${company.mapLon}&rtt=auto`
 
 export default function ContactsPage() {
   const rows = [
@@ -53,14 +55,24 @@ export default function ContactsPage() {
               </li>
             ))}
           </ul>
-          <a
-            href={mapHref}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex min-h-11 items-center justify-center gap-2 rounded-2xl bg-white px-5 py-3 text-sm font-semibold text-brand-700 ring-1 ring-stone-200 transition-[box-shadow,--tw-ring-color,transform] duration-200 hover:-translate-y-0.5 hover:shadow-md hover:ring-gold-500"
-          >
-            <MapPin size={16} aria-hidden="true" /> Показать на карте
-          </a>
+          <div className="overflow-hidden rounded-3xl bg-white shadow-card ring-1 ring-stone-200/80">
+            <iframe
+              title="Карта: офис на карте"
+              src={mapEmbedSrc}
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              allowFullScreen
+              className="block h-80 w-full border-0"
+            />
+            <a
+              href={routeHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex min-h-11 items-center justify-center gap-2 border-t border-stone-200 px-5 py-3 text-sm font-semibold text-brand-700 transition-colors duration-200 hover:bg-gold-50 hover:text-brand-900"
+            >
+              <MapPin size={16} aria-hidden="true" /> Построить маршрут
+            </a>
+          </div>
           <p className="text-xs text-stone-500">{company.legal}</p>
         </div>
         <div className="rounded-3xl bg-white p-6 shadow-card ring-1 ring-stone-200/80 sm:p-8">
