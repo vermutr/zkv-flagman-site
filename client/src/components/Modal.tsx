@@ -34,7 +34,7 @@ export function Modal({ open, onClose, title, children, footer }: Props) {
 
   return createPortal(
     <div
-      className="modal-backdrop animate-fade-in fixed inset-0 z-50 flex items-end justify-center bg-brand-900/60 backdrop-blur-sm sm:items-center sm:p-4"
+      className="modal-backdrop animate-fade-in fixed inset-0 z-50 flex items-center justify-center bg-brand-900/60 p-4 backdrop-blur-sm"
       onClick={onClose}
     >
       <div
@@ -43,7 +43,7 @@ export function Modal({ open, onClose, title, children, footer }: Props) {
         role="dialog"
         aria-modal="true"
         aria-labelledby="modal-title"
-        className="animate-sheet-in flex max-h-[92vh] w-full max-w-lg flex-col rounded-t-3xl bg-white shadow-2xl outline-none sm:animate-panel-in sm:rounded-3xl"
+        className="modal-panel animate-panel-in flex w-full max-w-lg flex-col rounded-3xl bg-white shadow-2xl outline-none"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-start justify-between gap-4 p-6 pb-0 sm:p-8 sm:pb-0">

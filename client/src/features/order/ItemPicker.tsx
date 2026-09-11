@@ -89,7 +89,7 @@ export function ItemPicker({ id, items, value, onChange, invalid = false, descri
           aria-invalid={invalid || undefined}
           aria-describedby={describedBy ?? hintId}
           onClick={() => setOpen((v) => !v)}
-          className="flex min-h-9 flex-1 items-center justify-between gap-2 rounded-lg px-2 text-left text-sm text-stone-500 outline-none"
+          className="flex min-h-9 flex-1 items-center justify-between gap-2 rounded-lg px-2 text-left text-base text-stone-500 outline-none sm:text-sm"
         >
           <span>{selected.length === 0 ? 'Выберите одну или несколько' : selected.length === 1 ? 'Добавить ещё' : `Выбрано: ${selected.length}`}</span>
           <ChevronDown
@@ -118,7 +118,7 @@ export function ItemPicker({ id, items, value, onChange, invalid = false, descri
                   return (
                     <label
                       key={key}
-                      className="flex min-h-11 cursor-pointer items-center gap-3 rounded-xl px-3 py-2 text-sm text-stone-800 transition-colors duration-150 hover:bg-gold-50 has-checked:bg-gold-50 has-checked:text-brand-900"
+                      className="flex min-h-11 cursor-pointer items-center gap-3 rounded-xl px-3 py-2 text-base text-stone-800 sm:text-sm transition-colors duration-150 hover:bg-gold-50 has-checked:bg-gold-50 has-checked:text-brand-900"
                     >
                       <input
                         type="checkbox"

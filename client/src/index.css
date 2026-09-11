@@ -37,7 +37,6 @@
   --animate-page-in: page-in 0.35s var(--ease-out-soft) both;
   --animate-fade-in: fade-in 0.2s ease-out both;
   --animate-panel-in: panel-in 0.3s var(--ease-out-soft) both;
-  --animate-sheet-in: sheet-in 0.32s var(--ease-out-soft) both;
 
   @keyframes page-in {
     from { opacity: 0; transform: translateY(12px); }
@@ -51,14 +50,13 @@
     from { opacity: 0; transform: translateY(16px) scale(0.98); }
     to { opacity: 1; transform: none; }
   }
-  @keyframes sheet-in {
-    from { transform: translateY(100%); }
-    to { transform: none; }
-  }
 }
 
 html { scroll-behavior: smooth; }
 body { @apply bg-cream text-stone-800 antialiased; }
+
+/* Окно: высота от видимой области (dvh учитывает панели Safari на iPhone), запасной вариант vh. */
+.modal-panel { max-height: 90vh; max-height: 90dvh; }
 
 /* Появление разделов при прокрутке (см. components/Reveal.tsx). */
 .reveal {

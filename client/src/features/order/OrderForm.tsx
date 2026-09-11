@@ -18,7 +18,7 @@ type Props = {
 }
 
 const inputClass =
-  'w-full rounded-xl border border-stone-300 bg-white px-4 py-3 text-sm text-stone-800 placeholder:text-stone-500 transition-[border-color,box-shadow] duration-200 hover:border-stone-400 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200 aria-invalid:border-red-600 aria-invalid:ring-red-100'
+  'w-full rounded-xl border border-stone-300 bg-white px-4 py-3 text-base text-stone-800 sm:text-sm placeholder:text-stone-500 transition-[border-color,box-shadow] duration-200 hover:border-stone-400 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200 aria-invalid:border-red-600 aria-invalid:ring-red-100'
 
 function Field({ id, label, error, children }: { id: string; label: string; error?: string; children: ReactNode }) {
   return (
