@@ -29,3 +29,19 @@ describe('orderSchema', () => {
     expect(orderSchema.safeParse({ ...valid, item: { ...valid.item, kind: 'x' } }).success).toBe(false)
   })
 })
+
+describe('outbound-mail hardening', () => {
+  it('rejects a slug that is not a plain kebab-case token', () => {
+    const r = orderSchema.safeParse({ ...valid, item: { ...valid.item, slug: 'Bad Slug!' } })
+    expect(r.success).toBe(false)
+    expect(r.error!.issues.map((i) => i.path.join('.'))).toContain('item.slug')
+  })
+  it('rejects control characters in name, company and item name', () => {
+    expect(orderSchema.safeParse({ ...valid, name: 'Иван\nBcc: spam@x.by' }).success).toBe(false)
+    expect(orderSchema.safeParse({ ...valid, company: 'ООО\r\nX' }).success).toBe(false)
+    expect(orderSchema.safeParse({ ...valid, item: { ...valid.item, name: 'Пакет\n<b>' } }).success).toBe(false)
+  })
+  it('still accepts an empty company', () => {
+    expect(orderSchema.safeParse({ ...valid, company: '' }).success).toBe(true)
+  })
+})

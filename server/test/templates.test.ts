@@ -31,6 +31,8 @@ describe('clientMessage', () => {
     const m = clientMessage(order)
     expect(m.to).toBe('ivan@example.com')
     expect(m.subject).toBe('Мы получили вашу заявку — Баланс Про')
+    expect(m.text).toContain('Здравствуйте!')
     expect(m.text).toContain('Малый бизнес')
+    expect(m.text).not.toContain(order.name)
   })
 })
