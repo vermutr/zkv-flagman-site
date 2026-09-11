@@ -49,6 +49,17 @@ describe('POST /api/order', () => {
     expect(res.body.errors).toHaveProperty('items')
   })
 
+  it('sends both emails at the same time instead of one after another', async () => {
+    const resolvers: Array<() => void> = []
+    send.mockImplementation(() => new Promise<void>((resolve) => resolvers.push(resolve)))
+    // supertest стартует запрос только при await/then, поэтому оборачиваем в Promise
+    const pending = Promise.resolve(request(app()).post('/api/order').send(valid))
+    await vi.waitFor(() => expect(send).toHaveBeenCalledTimes(2))
+    resolvers.forEach((resolve) => resolve())
+    const res = await pending
+    expect(res.status).toBe(200)
+  })
+
   it('returns 400 with field errors for an invalid order', async () => {
     const res = await request(app()).post('/api/order').send({ ...valid, email: 'bad' })
     expect(res.status).toBe(400)

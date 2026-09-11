@@ -53,8 +53,8 @@ export function createApp(opts: AppOptions): express.Express {
     }
     const order = parsed.data
     try {
-      await opts.mailer.send(ownerMessage(order, opts.orderTo))
-      await opts.mailer.send(clientMessage(order))
+      // Оба письма уходят одновременно: на serverless каждое — отдельное SMTP-соединение.
+      await Promise.all([opts.mailer.send(ownerMessage(order, opts.orderTo)), opts.mailer.send(clientMessage(order))])
       res.json({ ok: true })
     } catch (err) {
       console.error('[order] mail error', err)

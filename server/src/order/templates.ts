@@ -36,7 +36,8 @@ export function ownerMessage(order: Order, to: string): MailMessage {
     'Комментарий:',
     order.message || '—',
   ].join('\n')
-  return { to, subject, text }
+  // Reply-To — почта клиента: владелец отвечает прямо из письма.
+  return { to, subject, text, replyTo: order.email }
 }
 
 // Клиентское письмо не повторяет введённый пользователем текст: названия услуг

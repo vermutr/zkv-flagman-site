@@ -16,6 +16,7 @@ describe('ownerMessage', () => {
     const m = ownerMessage(order, 'owner@x.by')
     expect(m.to).toBe('owner@x.by')
     expect(m.subject).toBe('Заявка с сайта: Малый бизнес (пакет)')
+    expect(m.replyTo).toBe('ivan@example.com')
     for (const s of ['Иван', '+375 29 123-45-67', 'ivan@example.com', 'ООО Ромашка', 'Хочу пакет']) {
       expect(m.text).toContain(s)
     }
@@ -57,5 +58,6 @@ describe('clientMessage', () => {
     expect(m.text).toContain('Здравствуйте!')
     expect(m.text).toContain('Малый бизнес')
     expect(m.text).not.toContain(order.name)
+    expect(m.replyTo).toBeUndefined()
   })
 })
