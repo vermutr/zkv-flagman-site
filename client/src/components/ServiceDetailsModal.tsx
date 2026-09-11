@@ -50,7 +50,7 @@ export function ServiceDetailsModal({ service, onClose, onOrder }: Props) {
               <ul className="mt-3 space-y-2 text-sm text-stone-700">
                 {service.includes.map((item) => (
                   <li key={item} className="flex gap-2">
-                    <Check className="mt-0.5 shrink-0 text-accent-700" size={16} aria-hidden="true" />
+                    <Check className="mt-0.5 shrink-0 text-gold-700" size={16} aria-hidden="true" />
                     <span>{item}</span>
                   </li>
                 ))}

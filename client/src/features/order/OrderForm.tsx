@@ -15,7 +15,7 @@ type Props = {
 }
 
 const inputClass =
-  'w-full rounded-xl border border-stone-300 bg-white px-4 py-3 text-sm text-stone-800 placeholder:text-stone-500 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200 aria-invalid:border-red-600 aria-invalid:ring-red-100'
+  'w-full rounded-xl border border-stone-300 bg-white px-4 py-3 text-sm text-stone-800 placeholder:text-stone-500 transition-[border-color,box-shadow] duration-200 hover:border-stone-400 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200 aria-invalid:border-red-600 aria-invalid:ring-red-100'
 
 function Field({ id, label, error, children }: { id: string; label: string; error?: string; children: ReactNode }) {
   return (
@@ -71,8 +71,8 @@ export function OrderForm({ items, initialItem, showItemSelect = false, onSucces
 
   if (sent) {
     return (
-      <div className="rounded-2xl bg-accent-100 p-6 text-center">
-        <CheckCircle2 className="mx-auto text-accent-700" size={40} aria-hidden="true" />
+      <div className="animate-panel-in rounded-2xl bg-gold-50 p-6 text-center ring-1 ring-gold-200">
+        <CheckCircle2 className="mx-auto text-gold-700" size={40} aria-hidden="true" />
         <h3 className="mt-3 text-xl font-bold text-brand-900">Заявка отправлена</h3>
         <p className="mt-2 text-sm text-stone-700">
           Мы получили ваши данные и свяжемся с вами в рабочее время. Копия заявки ушла на вашу почту.

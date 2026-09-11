@@ -1,19 +1,19 @@
 import type { ButtonHTMLAttributes, ReactNode } from 'react'
 import { Link } from 'react-router'
 
-type Variant = 'primary' | 'secondary' | 'accent' | 'ghost'
+type Variant = 'primary' | 'secondary' | 'gold' | 'ghost'
 type Size = 'md' | 'lg'
 
 // Кольцо фокуса brand-500: 7.5:1 на белом; offset-кольцо оставляет его видимым и на тёмном фоне.
 const base =
-  'inline-flex items-center justify-center gap-2 rounded-full font-semibold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60'
+  'inline-flex items-center justify-center gap-2 rounded-full font-semibold transition-[background-color,color,box-shadow,transform] duration-200 ease-out hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0'
 
 const variants: Record<Variant, string> = {
-  primary: 'bg-brand-600 text-white shadow-sm hover:bg-brand-700 hover:shadow-md active:translate-y-px',
-  secondary: 'bg-white text-brand-600 ring-1 ring-brand-200 hover:bg-brand-50 active:bg-brand-100',
-  // accent-700 на белом тексте — 5.5:1 (accent-500 давал 2.5:1).
-  accent: 'bg-accent-700 text-white shadow-sm hover:bg-accent-800 hover:shadow-md active:translate-y-px',
-  ghost: 'text-brand-600 hover:bg-brand-50 active:bg-brand-100',
+  primary: 'bg-brand-600 text-white shadow-sm hover:bg-brand-700 hover:shadow-md',
+  secondary: 'bg-white text-brand-700 ring-1 ring-brand-200 hover:ring-gold-500 hover:shadow-md active:bg-gold-50',
+  // Золотая кнопка для тёмного фона: тёмно-синий текст на gold-400 — 8.2:1.
+  gold: 'bg-gold-400 text-brand-900 shadow-sm hover:bg-gold-300 hover:shadow-glow',
+  ghost: 'text-brand-700 hover:bg-gold-50 hover:text-brand-900 active:bg-gold-100',
 }
 
 // md: 20px строка + 2×12px = 44px — минимальная зона касания для мобильных.

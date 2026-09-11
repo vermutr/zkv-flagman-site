@@ -48,7 +48,7 @@ export default function ServicesPage() {
         subtitle="Пакет закрывает регулярные задачи по фиксированной цене. Отдельные услуги подойдут для разовых задач или как дополнение к пакету."
       />
 
-      <div role="tablist" aria-label="Тип услуг" className="mt-10 inline-flex rounded-full bg-stone-200/70 p-1">
+      <div role="tablist" aria-label="Тип услуг" className="mt-10 inline-flex rounded-full bg-stone-200/60 p-1">
         {tabs.map((t, i) => (
           <button
             key={t.id}
@@ -60,8 +60,8 @@ export default function ServicesPage() {
             tabIndex={tab === t.id ? 0 : -1}
             onClick={() => select(t.id)}
             onKeyDown={(e) => onTabKey(e, i)}
-            className={`min-h-11 rounded-full px-5 py-2.5 text-sm font-semibold transition-colors ${
-              tab === t.id ? 'bg-white text-brand-900 shadow-sm' : 'text-stone-600 hover:text-brand-700'
+            className={`min-h-11 rounded-full px-5 py-2.5 text-sm font-semibold transition-[background-color,color,box-shadow] duration-200 ${
+              tab === t.id ? 'bg-white text-brand-900 shadow-sm ring-1 ring-gold-500/60' : 'text-stone-600 hover:text-brand-900'
             }`}
           >
             {t.label}

@@ -15,13 +15,13 @@ export default function ContactsPage() {
       label: 'Телефон',
       value: (
         <>
-          <a href={company.phoneHref} className="hover:text-brand-600">{company.phone}</a>
+          <a href={company.phoneHref} className="transition-colors duration-200 hover:text-gold-700">{company.phone}</a>
           <br />
-          <a href={company.phone2Href} className="hover:text-brand-600">{company.phone2}</a>
+          <a href={company.phone2Href} className="transition-colors duration-200 hover:text-gold-700">{company.phone2}</a>
         </>
       ),
     },
-    { icon: Mail, label: 'Почта', value: <a href={`mailto:${company.email}`} className="hover:text-brand-600">{company.email}</a> },
+    { icon: Mail, label: 'Почта', value: <a href={`mailto:${company.email}`} className="transition-colors duration-200 hover:text-gold-700">{company.email}</a> },
     {
       icon: MapPin,
       label: 'Адрес',
@@ -43,7 +43,7 @@ export default function ContactsPage() {
           <ul className="space-y-5">
             {rows.map(({ icon: Icon, label, value }) => (
               <li key={label} className="flex gap-4">
-                <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-brand-50 text-brand-600">
+                <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-gold-100 text-gold-800">
                   <Icon size={20} aria-hidden="true" />
                 </span>
                 <div>
@@ -57,13 +57,13 @@ export default function ContactsPage() {
             href={mapHref}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex min-h-11 items-center justify-center gap-2 rounded-2xl bg-brand-50 px-5 py-3 text-sm font-semibold text-brand-600 ring-1 ring-brand-100 hover:bg-brand-100"
+            className="flex min-h-11 items-center justify-center gap-2 rounded-2xl bg-white px-5 py-3 text-sm font-semibold text-brand-700 ring-1 ring-stone-200 transition-[box-shadow,--tw-ring-color,transform] duration-200 hover:-translate-y-0.5 hover:shadow-md hover:ring-gold-500"
           >
             <MapPin size={16} aria-hidden="true" /> Показать на карте
           </a>
           <p className="text-xs text-stone-500">{company.legal}</p>
         </div>
-        <div className="rounded-3xl bg-white p-6 shadow-card ring-1 ring-stone-200 sm:p-8">
+        <div className="rounded-3xl bg-white p-6 shadow-card ring-1 ring-stone-200/80 sm:p-8">
           <h2 className="text-2xl font-bold text-brand-900">Напишите нам</h2>
           <p className="mt-2 text-sm text-stone-600">Опишите задачу, и мы предложим подходящий формат обслуживания.</p>
           <div className="mt-6">

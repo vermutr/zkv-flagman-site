@@ -1,9 +1,10 @@
-import { Outlet } from 'react-router'
+import { Outlet, useLocation } from 'react-router'
 import { Header } from './Header'
 import { Footer } from './Footer'
 import { ScrollToTop } from './ScrollToTop'
 
 export function Layout({ onOrderClick }: { onOrderClick: () => void }) {
+  const { pathname } = useLocation()
   return (
     <div className="flex min-h-screen flex-col">
       <ScrollToTop />
@@ -14,7 +15,8 @@ export function Layout({ onOrderClick }: { onOrderClick: () => void }) {
         Перейти к содержимому
       </a>
       <Header onOrderClick={onOrderClick} />
-      <main id="main" tabIndex={-1} className="flex-1 outline-none">
+      {/* key по адресу: при смене страницы контент мягко появляется снизу. */}
+      <main id="main" tabIndex={-1} key={pathname} className="animate-page-in flex-1 outline-none">
         <Outlet />
       </main>
       <Footer />

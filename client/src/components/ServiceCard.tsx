@@ -6,7 +6,7 @@ type Props = { service: Service; onOrder: (item: OrderItem) => void; onDetails: 
 
 export function ServiceCard({ service, onOrder, onDetails }: Props) {
   return (
-    <article className="flex flex-col rounded-3xl bg-white p-6 shadow-card ring-1 ring-stone-200">
+    <article className="group flex h-full flex-col rounded-3xl bg-white shadow-card ring-1 ring-stone-200/80 transition-[box-shadow,--tw-ring-color] duration-300 hover:shadow-card-hover hover:ring-gold-500 p-6">
       <h3 id={`service-${service.slug}-name`} className="font-bold text-brand-900">{service.name}</h3>
       <p className="mt-2 flex-1 text-sm text-stone-600">{service.description}</p>
       <p className="mt-4 text-lg font-extrabold tabular-nums text-brand-900">

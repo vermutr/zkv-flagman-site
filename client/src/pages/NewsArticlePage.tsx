@@ -13,8 +13,8 @@ export default function NewsArticlePage() {
 
   return (
     <Container className="max-w-3xl py-16 sm:py-20">
-      <Link to="/news" className="inline-flex items-center gap-1 text-sm font-semibold text-brand-600 hover:text-brand-700">
-        <ArrowLeft size={16} /> Все новости
+      <Link to="/news" className="group inline-flex min-h-11 items-center gap-1 text-sm font-semibold text-brand-600 transition-colors duration-200 hover:text-gold-700">
+        <ArrowLeft size={16} aria-hidden="true" className="transition-transform duration-200 group-hover:-translate-x-1" /> Все новости
       </Link>
       <time dateTime={post.date} className="mt-8 block text-xs font-medium uppercase tracking-wider text-stone-500">
         {formatDate(post.date)}

@@ -34,7 +34,7 @@ export function Modal({ open, onClose, title, children, footer }: Props) {
 
   return createPortal(
     <div
-      className="modal-backdrop fixed inset-0 z-50 flex items-end justify-center bg-brand-900/50 backdrop-blur-sm sm:items-center sm:p-4"
+      className="modal-backdrop animate-fade-in fixed inset-0 z-50 flex items-end justify-center bg-brand-900/60 backdrop-blur-sm sm:items-center sm:p-4"
       onClick={onClose}
     >
       <div
@@ -43,7 +43,7 @@ export function Modal({ open, onClose, title, children, footer }: Props) {
         role="dialog"
         aria-modal="true"
         aria-labelledby="modal-title"
-        className="flex max-h-[92vh] w-full max-w-lg flex-col rounded-t-3xl bg-white shadow-2xl outline-none sm:rounded-3xl"
+        className="animate-sheet-in flex max-h-[92vh] w-full max-w-lg flex-col rounded-t-3xl bg-white shadow-2xl outline-none sm:animate-panel-in sm:rounded-3xl"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-start justify-between gap-4 p-6 pb-0 sm:p-8 sm:pb-0">
@@ -54,7 +54,7 @@ export function Modal({ open, onClose, title, children, footer }: Props) {
             type="button"
             onClick={onClose}
             aria-label="Закрыть"
-            className="-mr-2 -mt-2 grid h-11 w-11 shrink-0 place-items-center rounded-full text-stone-600 hover:bg-stone-100 active:bg-stone-200"
+            className="-mr-2 -mt-2 grid h-11 w-11 shrink-0 place-items-center rounded-full text-stone-600 transition-[background-color,transform] duration-200 hover:rotate-90 hover:bg-gold-50 hover:text-brand-900 active:bg-gold-100"
           >
             <X size={22} />
           </button>
