@@ -1,11 +1,13 @@
-import type { KeyboardEvent } from 'react'
+import { useState, type KeyboardEvent } from 'react'
 import { useSearchParams } from 'react-router'
 import { Container } from '../components/Container'
 import { SectionHeading } from '../components/SectionHeading'
 import { PackageCard } from '../components/PackageCard'
 import { ServiceCard } from '../components/ServiceCard'
+import { ServiceDetailsModal } from '../components/ServiceDetailsModal'
 import { packages } from '../content/packages'
 import { services, serviceCategories } from '../content/services'
+import type { Service } from '../content/types'
 import { useOrder } from '../features/order/OrderContext'
 
 type Tab = 'packages' | 'services'
@@ -19,6 +21,7 @@ export default function ServicesPage() {
   const { open } = useOrder()
   const [params, setParams] = useSearchParams()
   const tab: Tab = params.get('tab') === 'services' ? 'services' : 'packages'
+  const [details, setDetails] = useState<Service | null>(null)
 
   const select = (next: Tab) => {
     setParams(next === 'packages' ? {} : { tab: next }, { replace: true })
@@ -81,13 +84,14 @@ export default function ServicesPage() {
                 {services
                   .filter((s) => s.category === category)
                   .map((s) => (
-                    <ServiceCard key={s.slug} service={s} onOrder={open} />
+                    <ServiceCard key={s.slug} service={s} onOrder={open} onDetails={setDetails} />
                   ))}
               </div>
             </section>
           ))}
         </div>
       )}
+      <ServiceDetailsModal service={details} onClose={() => setDetails(null)} onOrder={open} />
     </Container>
   )
 }

@@ -34,7 +34,7 @@ export function clientMessage(order: Order): MailMessage {
     ...(order.item ? [`Услуга: ${order.item.name}`] : []),
     '',
     'С уважением,',
-    'команда Баланс Про',
+    'команда ЗКВ ФЛАГМАН',
   ].join('\n')
-  return { to: order.email, subject: 'Мы получили вашу заявку — Баланс Про', text }
+  return { to: order.email, subject: 'Мы получили вашу заявку — ЗКВ ФЛАГМАН', text }
 }

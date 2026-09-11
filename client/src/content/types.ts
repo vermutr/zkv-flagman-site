@@ -2,6 +2,7 @@ export type Package = {
   slug: string
   name: string
   audience: string
+  /** Цена «от», BYN в месяц. */
   pricePerMonth: number
   features: string[]
   popular?: boolean
@@ -10,7 +11,14 @@ export type Package = {
 export type Service = {
   slug: string
   name: string
+  /** Короткий текст для карточки, одно-два предложения. */
   description: string
+  /** Полное описание для окна «Подробнее», по абзацам. */
+  details: string[]
+  /** Что входит в услугу. */
+  includes?: string[]
+  /** Преимущества, показываются в окне отдельным списком. */
+  benefits?: string[]
   priceFrom: number
   unit?: string
   category: string

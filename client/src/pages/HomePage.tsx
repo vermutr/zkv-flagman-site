@@ -24,7 +24,7 @@ export default function HomePage() {
         <div className="pointer-events-none absolute -bottom-40 left-1/3 h-96 w-96 rounded-full bg-brand-500/30 blur-3xl" />
         <Container className="relative grid gap-12 py-20 sm:py-28 lg:grid-cols-[3fr_2fr] lg:items-center">
           <div>
-            <p className="text-sm font-semibold uppercase tracking-wider text-accent-400">Бухгалтерское обслуживание в Минске</p>
+            <p className="text-sm font-semibold uppercase tracking-wider text-accent-400">Бухгалтерские услуги в Гродно</p>
             <h1 className="mt-4 text-4xl font-extrabold leading-tight tracking-tight sm:text-5xl lg:text-6xl">
               {company.tagline}
             </h1>

@@ -10,9 +10,28 @@ const mapHref = `https://yandex.by/maps/?text=${encodeURIComponent(company.addre
 
 export default function ContactsPage() {
   const rows = [
-    { icon: Phone, label: 'Телефон', value: <a href={company.phoneHref} className="hover:text-brand-600">{company.phone}</a> },
+    {
+      icon: Phone,
+      label: 'Телефон',
+      value: (
+        <>
+          <a href={company.phoneHref} className="hover:text-brand-600">{company.phone}</a>
+          <br />
+          <a href={company.phone2Href} className="hover:text-brand-600">{company.phone2}</a>
+        </>
+      ),
+    },
     { icon: Mail, label: 'Почта', value: <a href={`mailto:${company.email}`} className="hover:text-brand-600">{company.email}</a> },
-    { icon: MapPin, label: 'Адрес', value: company.address },
+    {
+      icon: MapPin,
+      label: 'Адрес',
+      value: (
+        <>
+          {company.address}
+          <span className="mt-1 block text-sm font-normal text-stone-600">{company.directions}</span>
+        </>
+      ),
+    },
     { icon: Clock, label: 'Часы работы', value: company.hours },
   ]
 

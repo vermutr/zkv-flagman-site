@@ -29,7 +29,7 @@ export function Header({ onOrderClick }: { onOrderClick: () => void }) {
     <header className="site-header sticky top-0 z-40 border-b border-stone-200/70 bg-white/80 backdrop-blur">
       <Container className="flex h-16 items-center justify-between">
         <Link to="/" className="flex items-center gap-2 text-lg font-extrabold text-brand-900">
-          <span className="grid h-8 w-8 place-items-center rounded-lg bg-brand-600 text-sm text-white">БП</span>
+          <span className="grid h-8 w-8 place-items-center rounded-lg bg-brand-600 text-sm text-white">ЗФ</span>
           {company.name}
         </Link>
         <nav aria-label="Основное меню" className="hidden items-center gap-1 md:flex">

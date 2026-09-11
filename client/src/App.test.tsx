@@ -1,7 +1,25 @@
-import { describe, expect, it } from 'vitest'
-import { screen } from '@testing-library/react'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import { screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { renderApp } from './test/render'
+
+describe('scroll on navigation', () => {
+  beforeEach(() => vi.stubGlobal('scrollTo', vi.fn()))
+  afterEach(() => vi.unstubAllGlobals())
+
+  it('scrolls to the top when a footer link opens another section', async () => {
+    renderApp('/')
+    const footer = screen.getByRole('contentinfo')
+    await userEvent.click(within(footer).getByRole('link', { name: 'Команда' }))
+    expect(screen.getByRole('heading', { name: 'Люди, которые ведут ваш учёт' })).toBeInTheDocument()
+    expect(window.scrollTo).toHaveBeenCalledWith(expect.objectContaining({ top: 0 }))
+  })
+
+  it('does not touch the scroll position on the initial load', () => {
+    renderApp('/team')
+    expect(window.scrollTo).not.toHaveBeenCalled()
+  })
+})
 
 describe('App shell', () => {
   it('renders navigation with all sections', () => {

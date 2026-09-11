@@ -2,9 +2,9 @@ import { useEffect, useRef, type ReactNode } from 'react'
 import { createPortal } from 'react-dom'
 import { X } from 'lucide-react'
 
-type Props = { open: boolean; onClose: () => void; title: string; children: ReactNode }
+type Props = { open: boolean; onClose: () => void; title: string; children: ReactNode; footer?: ReactNode }
 
-export function Modal({ open, onClose, title, children }: Props) {
+export function Modal({ open, onClose, title, children, footer }: Props) {
   const panelRef = useRef<HTMLDivElement>(null)
   const triggerRef = useRef<HTMLElement | null>(null)
 
@@ -43,10 +43,10 @@ export function Modal({ open, onClose, title, children }: Props) {
         role="dialog"
         aria-modal="true"
         aria-labelledby="modal-title"
-        className="max-h-[92vh] w-full max-w-lg overflow-y-auto rounded-t-3xl bg-white p-6 shadow-2xl outline-none sm:rounded-3xl sm:p-8"
+        className="flex max-h-[92vh] w-full max-w-lg flex-col rounded-t-3xl bg-white shadow-2xl outline-none sm:rounded-3xl"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-start justify-between gap-4">
+        <div className="flex items-start justify-between gap-4 p-6 pb-0 sm:p-8 sm:pb-0">
           <h2 id="modal-title" className="text-2xl font-bold text-brand-900">
             {title}
           </h2>
@@ -59,7 +59,8 @@ export function Modal({ open, onClose, title, children }: Props) {
             <X size={22} />
           </button>
         </div>
-        <div className="mt-6">{children}</div>
+        <div className="overflow-y-auto p-6 sm:px-8 sm:pb-8">{children}</div>
+        {footer && <div className="border-t border-stone-200 px-6 py-4 sm:px-8">{footer}</div>}
       </div>
     </div>,
     document.body,

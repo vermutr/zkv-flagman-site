@@ -10,15 +10,16 @@ describe('HomePage', () => {
     renderApp('/')
     for (const p of packages) expect(screen.getByRole('heading', { name: p.name })).toBeInTheDocument()
     expect(screen.getByText('Популярный')).toBeInTheDocument()
-    expect(screen.getByText(/^450 BYN/)).toBeInTheDocument()
+    expect(screen.getByText(/^от 580 BYN/)).toBeInTheDocument()
   })
 
   it('opens the order modal preselecting the clicked package', async () => {
     renderApp('/')
-    const card = screen.getByRole('heading', { name: 'Малый бизнес' }).closest('article')!
+    const popular = packages.find((p) => p.popular)!
+    const card = screen.getByRole('heading', { name: popular.name }).closest('article')!
     await userEvent.click(within(card).getByRole('button', { name: 'Заказать' }))
-    const dialog = screen.getByRole('dialog', { name: 'Заказать: Малый бизнес' })
-    expect(within(dialog).getByLabelText('Услуга')).toHaveValue('package:small')
+    const dialog = screen.getByRole('dialog', { name: `Заказать: ${popular.name}` })
+    expect(within(dialog).getByLabelText('Услуга')).toHaveValue(`package:${popular.slug}`)
   })
 
   it('renders hero and advantages copy from the content module', () => {

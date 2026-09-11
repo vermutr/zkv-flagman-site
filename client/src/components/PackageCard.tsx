@@ -19,7 +19,7 @@ export function PackageCard({ pkg, onOrder }: { pkg: Package; onOrder: (item: Or
       <h3 id={`package-${pkg.slug}-name`} className="text-xl font-bold text-brand-900">{pkg.name}</h3>
       <p className="mt-1 text-sm text-stone-600">{pkg.audience}</p>
       <p className="mt-5 text-3xl font-extrabold tabular-nums text-brand-900">
-        {formatPrice(pkg.pricePerMonth)}
+        от {formatPrice(pkg.pricePerMonth)}
         <span className="text-base font-medium text-stone-500"> / месяц</span>
       </p>
       <ul className="mt-6 flex-1 space-y-2.5 text-sm text-stone-700">

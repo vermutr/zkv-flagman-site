@@ -24,6 +24,7 @@ export function Footer() {
           <p className="font-semibold text-brand-900">Контакты</p>
           <ul className="mt-3 space-y-2 text-stone-600">
             <li><a href={company.phoneHref} className="hover:text-brand-700">{company.phone}</a></li>
+            <li><a href={company.phone2Href} className="hover:text-brand-700">{company.phone2}</a></li>
             <li><a href={`mailto:${company.email}`} className="hover:text-brand-700">{company.email}</a></li>
             <li>{company.address}</li>
             <li>{company.hours}</li>
