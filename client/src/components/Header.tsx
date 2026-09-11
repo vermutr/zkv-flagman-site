@@ -28,9 +28,8 @@ export function Header({ onOrderClick }: { onOrderClick: () => void }) {
   return (
     <header className="site-header sticky top-0 z-40 border-b border-stone-200/70 bg-white/80 backdrop-blur">
       <Container className="flex h-16 items-center justify-between">
-        <Link to="/" className="flex items-center gap-2 text-lg font-extrabold text-brand-900">
-          <span className="grid h-8 w-8 place-items-center rounded-lg bg-brand-600 text-sm text-white">ЗФ</span>
-          {company.name}
+        <Link to="/" className="flex items-center rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2">
+          <img src="/logo.png" alt={company.name} width={1753} height={399} className="h-9 w-auto sm:h-11" />
         </Link>
         <nav aria-label="Основное меню" className="hidden items-center gap-1 md:flex">
           {links.map((l) => (

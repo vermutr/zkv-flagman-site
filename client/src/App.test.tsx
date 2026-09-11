@@ -2,6 +2,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { renderApp } from './test/render'
+import { company } from './content/company'
 
 describe('scroll on navigation', () => {
   beforeEach(() => vi.stubGlobal('scrollTo', vi.fn()))
@@ -28,6 +29,12 @@ describe('App shell', () => {
     for (const label of ['Услуги', 'Команда', 'Новости', 'Контакты']) {
       expect(nav).toHaveTextContent(label)
     }
+  })
+  it('shows the company logo in the header linking to the home page', () => {
+    renderApp('/team')
+    const logo = within(screen.getByRole('banner')).getByRole('img', { name: company.name })
+    expect(logo).toHaveAttribute('src', '/logo.png')
+    expect(logo.closest('a')).toHaveAttribute('href', '/')
   })
   it('offers a skip link that targets the main landmark', () => {
     renderApp('/')
