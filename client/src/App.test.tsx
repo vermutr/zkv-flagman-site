@@ -30,4 +30,14 @@ describe('App shell', () => {
     await userEvent.keyboard('{Escape}')
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
   })
+  it('moves focus into the modal and returns it to the trigger on close', async () => {
+    renderApp('/')
+    const trigger = screen.getAllByRole('button', { name: 'Заказать услугу' })[0]
+    await userEvent.click(trigger)
+    const dialog = screen.getByRole('dialog', { name: 'Заказать услугу' })
+    expect(dialog.contains(document.activeElement)).toBe(true)
+    await userEvent.keyboard('{Escape}')
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+    expect(document.activeElement).toBe(trigger)
+  })
 })

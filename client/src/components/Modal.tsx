@@ -1,11 +1,21 @@
-import { useEffect, type ReactNode } from 'react'
+import { useEffect, useRef, type ReactNode } from 'react'
+import { createPortal } from 'react-dom'
 import { X } from 'lucide-react'
 
 type Props = { open: boolean; onClose: () => void; title: string; children: ReactNode }
 
 export function Modal({ open, onClose, title, children }: Props) {
+  const panelRef = useRef<HTMLDivElement>(null)
+  const triggerRef = useRef<HTMLElement | null>(null)
+
   useEffect(() => {
     if (!open) return
+    // Модалка рендерится порталом в body, поэтому остальную страницу (#root) делаем inert.
+    const appRoot = document.getElementById('root')
+    triggerRef.current = document.activeElement instanceof HTMLElement ? document.activeElement : null
+    appRoot?.setAttribute('inert', '')
+    panelRef.current?.focus()
+
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose()
     }
@@ -14,21 +24,26 @@ export function Modal({ open, onClose, title, children }: Props) {
     return () => {
       document.removeEventListener('keydown', onKey)
       document.body.style.overflow = ''
+      appRoot?.removeAttribute('inert')
+      triggerRef.current?.focus()
+      triggerRef.current = null
     }
   }, [open, onClose])
 
   if (!open) return null
 
-  return (
+  return createPortal(
     <div
       className="fixed inset-0 z-50 flex items-end justify-center bg-brand-900/50 backdrop-blur-sm sm:items-center sm:p-4"
       onClick={onClose}
     >
       <div
+        ref={panelRef}
+        tabIndex={-1}
         role="dialog"
         aria-modal="true"
         aria-labelledby="modal-title"
-        className="max-h-[92vh] w-full max-w-lg overflow-y-auto rounded-t-3xl bg-white p-6 shadow-2xl sm:rounded-3xl sm:p-8"
+        className="max-h-[92vh] w-full max-w-lg overflow-y-auto rounded-t-3xl bg-white p-6 shadow-2xl outline-none sm:rounded-3xl sm:p-8"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-start justify-between gap-4">
@@ -41,6 +56,7 @@ export function Modal({ open, onClose, title, children }: Props) {
         </div>
         <div className="mt-6">{children}</div>
       </div>
-    </div>
+    </div>,
+    document.body,
   )
 }

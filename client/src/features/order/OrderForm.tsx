@@ -25,12 +25,17 @@ function Field({ id, label, error, children }: { id: string; label: string; erro
       </label>
       {children}
       {error && (
-        <p className="mt-1 text-xs text-red-600" role="status">
+        <p id={`${id}-error`} role="alert" className="mt-1 text-xs text-red-600">
           {error}
         </p>
       )}
     </div>
   )
+}
+
+/** aria-атрибуты, связывающие поле с текстом ошибки, который печатает Field. */
+function errorProps(id: string, error?: string) {
+  return { 'aria-invalid': Boolean(error), 'aria-describedby': error ? `${id}-error` : undefined }
 }
 
 export function OrderForm({ items, initialItem, showItemSelect = false, onSuccess }: Props) {
@@ -83,7 +88,7 @@ export function OrderForm({ items, initialItem, showItemSelect = false, onSucces
     <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-4">
       {showItemSelect && (
         <Field id="order-item" label="Услуга" error={errors.itemKey?.message}>
-          <select id="order-item" className={inputClass} {...register('itemKey')}>
+          <select id="order-item" className={inputClass} {...errorProps('order-item', errors.itemKey?.message)} {...register('itemKey')}>
             <option value="">Пока не решил(а)</option>
             <optgroup label="Пакеты">
               {packages.map((i) => (
@@ -103,21 +108,21 @@ export function OrderForm({ items, initialItem, showItemSelect = false, onSucces
         </Field>
       )}
       <Field id="order-name" label="Имя" error={errors.name?.message}>
-        <input id="order-name" className={inputClass} placeholder="Как к вам обращаться" autoComplete="name" {...register('name')} />
+        <input id="order-name" className={inputClass} placeholder="Как к вам обращаться" autoComplete="name" {...errorProps('order-name', errors.name?.message)} {...register('name')} />
       </Field>
       <div className="grid gap-4 sm:grid-cols-2">
         <Field id="order-phone" label="Телефон" error={errors.phone?.message}>
-          <input id="order-phone" className={inputClass} placeholder="+375 29 000-00-00" autoComplete="tel" inputMode="tel" {...register('phone')} />
+          <input id="order-phone" className={inputClass} placeholder="+375 29 000-00-00" autoComplete="tel" inputMode="tel" {...errorProps('order-phone', errors.phone?.message)} {...register('phone')} />
         </Field>
         <Field id="order-email" label="Email" error={errors.email?.message}>
-          <input id="order-email" className={inputClass} placeholder="you@company.by" autoComplete="email" inputMode="email" {...register('email')} />
+          <input id="order-email" className={inputClass} placeholder="you@company.by" autoComplete="email" inputMode="email" {...errorProps('order-email', errors.email?.message)} {...register('email')} />
         </Field>
       </div>
       <Field id="order-company" label="Компания или ИП" error={errors.company?.message}>
-        <input id="order-company" className={inputClass} placeholder="Необязательно" autoComplete="organization" {...register('company')} />
+        <input id="order-company" className={inputClass} placeholder="Необязательно" autoComplete="organization" {...errorProps('order-company', errors.company?.message)} {...register('company')} />
       </Field>
       <Field id="order-message" label="Комментарий" error={errors.message?.message}>
-        <textarea id="order-message" rows={3} className={inputClass} placeholder="Расскажите о задаче: вид деятельности, количество сотрудников, система налогообложения" {...register('message')} />
+        <textarea id="order-message" rows={3} className={inputClass} placeholder="Расскажите о задаче: вид деятельности, количество сотрудников, система налогообложения" {...errorProps('order-message', errors.message?.message)} {...register('message')} />
       </Field>
       <div className="absolute -left-[9999px] top-auto h-px w-px overflow-hidden" aria-hidden="true">
         <label htmlFor="order-website">Website</label>

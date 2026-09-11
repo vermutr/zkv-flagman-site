@@ -28,6 +28,10 @@ describe('OrderForm', () => {
     expect(await screen.findByText('Введите имя')).toBeInTheDocument()
     expect(screen.getByText('Введите корректный телефон')).toBeInTheDocument()
     expect(screen.getByText('Введите корректный email')).toBeInTheDocument()
+    const name = screen.getByLabelText('Имя')
+    expect(name).toHaveAttribute('aria-invalid', 'true')
+    expect(name).toHaveAccessibleDescription('Введите имя')
+    expect(document.getElementById(name.getAttribute('aria-describedby')!)).toHaveTextContent('Введите имя')
     expect(fetchMock).not.toHaveBeenCalled()
   })
 
