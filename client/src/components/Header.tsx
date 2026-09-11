@@ -27,7 +27,7 @@ const mobileLinkClass = ({ isActive }: { isActive: boolean }) =>
 export function Header({ onOrderClick }: { onOrderClick: () => void }) {
   const [open, setOpen] = useState(false)
   return (
-    <header className="site-header sticky top-0 z-40 border-b border-stone-200/70 bg-white/85 backdrop-blur">
+    <header className="site-header sticky top-0 z-40 border-b border-stone-200/70 bg-white shadow-[0_1px_0_rgb(15_31_51_/_0.04)]">
       <Container className="flex h-16 items-center justify-between">
         <Link
           to="/"

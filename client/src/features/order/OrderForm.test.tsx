@@ -55,6 +55,23 @@ describe('OrderForm', () => {
     expect(onSuccess).toHaveBeenCalledTimes(1)
   })
 
+  it('offers a close button after success only when onDone is given', async () => {
+    fetchMock.mockResolvedValue({ ok: true, status: 200, json: async () => ({ ok: true }) })
+    const onDone = vi.fn()
+    const { unmount } = render(<OrderForm items={items} onDone={onDone} />)
+    await fillRequired()
+    await userEvent.click(screen.getByRole('button', { name: 'Отправить заявку' }))
+    await userEvent.click(await screen.findByRole('button', { name: 'Готово' }))
+    expect(onDone).toHaveBeenCalledTimes(1)
+    unmount()
+
+    render(<OrderForm items={items} />)
+    await fillRequired()
+    await userEvent.click(screen.getByRole('button', { name: 'Отправить заявку' }))
+    expect(await screen.findByText('Заявка отправлена')).toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: 'Готово' })).not.toBeInTheDocument()
+  })
+
   it('removes an item with its chip and closes the panel with Escape', async () => {
     render(<OrderForm items={items} initialItem={items[1]} showItemSelect />)
     const field = screen.getByLabelText('Услуги')

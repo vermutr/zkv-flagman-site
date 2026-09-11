@@ -13,6 +13,8 @@ type Props = {
   initialItem?: OrderItem
   showItemSelect?: boolean
   onSuccess?: () => void
+  /** Кнопка «Закрыть» на экране успеха (в модальном окне). */
+  onDone?: () => void
 }
 
 const inputClass =
@@ -39,7 +41,7 @@ function errorProps(id: string, error?: string) {
   return { 'aria-invalid': Boolean(error), 'aria-describedby': error ? `${id}-error` : undefined }
 }
 
-export function OrderForm({ items, initialItem, showItemSelect = false, onSuccess }: Props) {
+export function OrderForm({ items, initialItem, showItemSelect = false, onSuccess, onDone }: Props) {
   const [sent, setSent] = useState(false)
   const [serverError, setServerError] = useState<string | null>(null)
   const {
@@ -79,6 +81,11 @@ export function OrderForm({ items, initialItem, showItemSelect = false, onSucces
         <p className="mt-2 text-sm text-stone-700">
           Мы получили ваши данные и свяжемся с вами в рабочее время. Копия заявки ушла на вашу почту.
         </p>
+        {onDone && (
+          <Button type="button" className="mt-6 w-full sm:w-auto" onClick={onDone} autoFocus>
+            Готово
+          </Button>
+        )}
       </div>
     )
   }

@@ -61,6 +61,22 @@ describe('App shell', () => {
     await userEvent.keyboard('{Escape}')
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
   })
+  it('renames the modal after a successful order and closes it with the button', async () => {
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ ok: true, status: 200, json: async () => ({ ok: true }) }))
+    renderApp('/')
+    await userEvent.click(screen.getAllByRole('button', { name: 'Заказать услугу' })[0])
+    const dialog = screen.getByRole('dialog', { name: 'Заказать услугу' })
+    await userEvent.type(within(dialog).getByLabelText('Имя'), 'Иван')
+    await userEvent.type(within(dialog).getByLabelText('Телефон'), '+375 29 123-45-67')
+    await userEvent.type(within(dialog).getByLabelText('Email'), 'ivan@example.com')
+    await userEvent.click(within(dialog).getByRole('button', { name: 'Отправить заявку' }))
+    const done = await screen.findByRole('dialog', { name: 'Заявка принята' })
+    await userEvent.click(within(done).getByRole('button', { name: 'Готово' }))
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+    await userEvent.click(screen.getAllByRole('button', { name: 'Заказать услугу' })[0])
+    expect(screen.getByRole('dialog', { name: 'Заказать услугу' })).toBeInTheDocument()
+    vi.unstubAllGlobals()
+  })
   it('moves focus into the modal and returns it to the trigger on close', async () => {
     renderApp('/')
     const trigger = screen.getAllByRole('button', { name: 'Заказать услугу' })[0]
