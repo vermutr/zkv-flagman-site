@@ -34,11 +34,11 @@ export default function HomePage() {
               {company.tagline}
             </h1>
             <p className="mt-6 max-w-xl text-lg text-brand-100">{heroSubtitle}</p>
-            <div className="mt-10 flex flex-wrap gap-3">
-              <Button size="lg" variant="gold" onClick={() => open()}>
+            <div className="mt-10 flex flex-col gap-3 sm:flex-row">
+              <Button size="lg" variant="gold" className="w-full sm:w-auto" onClick={() => open()}>
                 Заказать услугу
               </Button>
-              <ButtonLink to="/services" size="lg" variant="secondary">
+              <ButtonLink to="/services" size="lg" variant="secondary" className="w-full sm:w-auto">
                 Смотреть тарифы
               </ButtonLink>
             </div>
