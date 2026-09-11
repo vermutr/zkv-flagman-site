@@ -1,3 +1,4 @@
+| Тексты на главной: преимущества, цифры, подзаголовок, блок с призывом | `client/src/content/home.ts` |
 # Баланс Про — сайт бухгалтерской компании
 
 SPA на React + маленький Node-сервер для отправки заявок на почту. Один репозиторий, npm workspaces:
@@ -24,6 +25,7 @@ npm start                 # продакшен-режим: http://localhost:3001
 | Пакеты услуг и цены | `client/src/content/packages.ts` |
 | Отдельные услуги и категории | `client/src/content/services.ts` |
 | Сотрудники | `client/src/content/team.ts` (фото положить в `client/public/team/` и указать `photo: '/team/имя.jpg'`) |
+| Тексты на главной: преимущества, цифры, подзаголовок, блок с призывом | `client/src/content/home.ts` |
 | Новости | `client/src/content/news/ГГГГ-ММ-ДД-slug.md` с frontmatter `title`, `date`, `excerpt`, необязательно `cover` |
 
 После правок: `npm run build` и загрузить новую сборку на хостинг.

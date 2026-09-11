@@ -1,4 +1,3 @@
-import { Clock, FileCheck2, MessageCircle, ShieldCheck } from 'lucide-react'
 import { Container } from '../components/Container'
 import { Button, ButtonLink } from '../components/Button'
 import { SectionHeading } from '../components/SectionHeading'
@@ -6,22 +5,16 @@ import { PackageCard } from '../components/PackageCard'
 import { TeamCard } from '../components/TeamCard'
 import { NewsCard } from '../components/NewsCard'
 import { company } from '../content/company'
+import { advantages, ctaText, ctaTitle, heroStats, heroSubtitle } from '../content/home'
 import { packages } from '../content/packages'
 import { team } from '../content/team'
 import { loadNews } from '../lib/news'
 import { useOrder } from '../features/order/OrderContext'
 
-const advantages = [
-  { icon: ShieldCheck, title: 'Отвечаем за результат', text: 'Штрафы по нашей вине оплачиваем сами. Это прописано в договоре.' },
-  { icon: Clock, title: 'Отчёты всегда вовремя', text: 'Календарь сдачи под контролем: напоминаем заранее и сдаём без просрочек.' },
-  { icon: MessageCircle, title: 'Бухгалтер на связи', text: 'Отвечаем в мессенджерах в течение рабочего дня, а не раз в квартал.' },
-  { icon: FileCheck2, title: 'Порядок в документах', text: 'Электронный архив и ЭДО: нужный документ находится за минуту.' },
-]
-
 export default function HomePage() {
   const { open } = useOrder()
   const news = loadNews().slice(0, 3)
-  const years = new Date().getFullYear() - company.foundedYear
+  const stats = heroStats()
 
   return (
     <>
@@ -34,9 +27,7 @@ export default function HomePage() {
             <h1 className="mt-4 text-4xl font-extrabold leading-tight tracking-tight sm:text-5xl lg:text-6xl">
               {company.tagline}
             </h1>
-            <p className="mt-6 max-w-xl text-lg text-brand-100">
-              Берём на себя учёт, налоги, зарплату и отчётность для ИП и компаний. Вы занимаетесь бизнесом, мы — цифрами.
-            </p>
+            <p className="mt-6 max-w-xl text-lg text-brand-100">{heroSubtitle}</p>
             <div className="mt-10 flex flex-wrap gap-3">
               <Button size="lg" variant="accent" onClick={() => open()}>
                 Заказать услугу
@@ -47,11 +38,7 @@ export default function HomePage() {
             </div>
           </div>
           <dl className="grid grid-cols-3 gap-4 lg:grid-cols-1">
-            {[
-              [`${years}+`, 'лет на рынке'],
-              ['320+', 'клиентов на обслуживании'],
-              ['0', 'просроченных отчётов за год'],
-            ].map(([value, label]) => (
+            {stats.map(({ value, label }) => (
               <div key={label} className="rounded-2xl bg-white/5 p-5 ring-1 ring-white/10 backdrop-blur">
                 <dt className="text-3xl font-extrabold text-white">{value}</dt>
                 <dd className="mt-1 text-sm text-brand-100">{label}</dd>
@@ -125,10 +112,8 @@ export default function HomePage() {
       <section className="py-20">
         <Container>
           <div className="rounded-3xl bg-brand-600 px-8 py-14 text-center text-white sm:px-16">
-            <h2 className="text-3xl font-bold sm:text-4xl">Не знаете, какой пакет подходит?</h2>
-            <p className="mx-auto mt-4 max-w-xl text-brand-100">
-              Оставьте заявку, и бухгалтер перезвонит в течение рабочего дня, чтобы подобрать формат под ваш бизнес.
-            </p>
+            <h2 className="text-3xl font-bold sm:text-4xl">{ctaTitle}</h2>
+            <p className="mx-auto mt-4 max-w-xl text-brand-100">{ctaText}</p>
             <Button size="lg" variant="accent" className="mt-8" onClick={() => open()}>
               Оставить заявку
             </Button>
